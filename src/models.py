@@ -1,5 +1,6 @@
 import numpy as np
 import random
+from error_evals import *
 
 
 class LayerConnections:
@@ -29,9 +30,11 @@ class Layer:
 
 
 class Graph:
-    def __init__(self, num_inputs):
+    def __init__(self, num_inputs, error_func=SquaredSum(), learning_rate=0.9):
         self.layers = [Layer(num_inputs)]
         self.num_layers = 1
+        self.learning_rate = learning_rate
+        self.error_func = error_func
 
     def add(self, new_layer, weights=None):
         self.layers.append(new_layer)
@@ -48,5 +51,4 @@ class Graph:
             inputs = layer.feed_forward(inputs)
 
         print(inputs)
-            
-            
+
