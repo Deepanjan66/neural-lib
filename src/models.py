@@ -24,8 +24,12 @@ class Layer:
         self.connections = LayerConnections({'input':len(layer.neurons),'output':len(self.neurons)})
     
     def feed_forward(self, inputs):
-        return np.matmul(self.connections.weight_matrix, np.transpose(inputs)) + self.connections.biases
-        
+        output_vec = np.matmul(self.connections.weight_matrix, np.transpose(inputs)) + self.connections.biases
+        if self.activation:
+            output_vec = [self.activation.evaluate(out) for out in output_vec]
+
+        return output_vec
+            
     def __repr__(self):
         return "Layer with " + str(len(self.neurons)) + " neurons"
 
@@ -47,9 +51,9 @@ class Graph:
                 "\n".join([str(layer) for layer in self.layers])
 
     def feed(self, inputs):
-        inputs = np.array(inputs).transpose()
+        outputs = np.array(inputs).transpose()
         for layer in self.layers[1:]:
-            inputs = layer.feed_forward(inputs)
+            outputs = layer.feed_forward(outputs)
 
-        print(inputs)
+        print(outputs)
 

@@ -8,7 +8,7 @@ class Activation:
 
 class Sigmoid(Activation):
     def evaluate(self, inp):
-        return 1/(1+exp(-inp))
+        return 1/(1+math.exp(-inp))
     
     def derivative(self, inp):
         return inp*(1-inp)
