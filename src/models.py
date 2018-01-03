@@ -15,9 +15,10 @@ class Neuron:
 
 
 class Layer:
-    def __init__(self, num_neurons):
+    def __init__(self, num_neurons, activation=None):
         self.neurons = [Neuron() for _ in range(num_neurons)]
         self.connections = None
+        self.activation = activation
 
     def connect_new_layer(self, layer):
         self.connections = LayerConnections({'input':len(layer.neurons),'output':len(self.neurons)})
