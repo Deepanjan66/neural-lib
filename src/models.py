@@ -93,7 +93,6 @@ class Graph:
         
         target_outputs = np.array(target_outputs)
         self.correct(outputs, target_outputs)
-        print(outputs)
 
     def correct(self, outputs, target_outputs):
         errors = outputs - target_outputs
