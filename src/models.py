@@ -51,16 +51,18 @@ class Layer:
     def backprop_error(self, errors, input_array):
         weight_matrix = self.connections.weight_matrix
         updated_errors = np.zeros(weight_matrix.shape)
+
         for i in range(weight_matrix.shape[0]):
             for j in range(weight_matrix.shape[1]):
-                updated_errors[i][j] = errors[i] * input_array[j] 
+                updated_errors[i][j] = errors[i] * input_array[j]
+                if self.activation:
+                    updated_errors[i][j] *= \
+                    self.activation.derivative(self.get_neuron_values()[i])
                 weight_matrix[i][j] -= self.learning_rate * updated_errors[i][j] 
         
         summed_updated_errors = np.sum(updated_errors, axis=0)
         return summed_updated_errors
 
-
-        
     def __repr__(self):
         return "Layer with " + str(len(self.neurons)) + " neurons"
 
@@ -93,6 +95,7 @@ class Graph:
         
         target_outputs = np.array(target_outputs)
         self.correct(outputs, target_outputs)
+        print(outputs)
 
     def correct(self, outputs, target_outputs):
         errors = self.error_func.derivative(outputs, target_outputs)
