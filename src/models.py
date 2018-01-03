@@ -9,8 +9,12 @@ class LayerConnections:
         self.biases = np.zeros(dims['output'], order="C")
 
 class Neuron:
-    def __init__(self):
-        pass
+    def __init__(self, value=0):
+        self.value = value
+    def update_value(self, value):
+        self.value = value
+    def get_value(self):
+        return self.value
 
 
 
@@ -24,12 +28,22 @@ class Layer:
         self.connections = LayerConnections({'input':len(layer.neurons),'output':len(self.neurons)})
     
     def feed_forward(self, inputs):
+        
         output_vec = np.matmul(self.connections.weight_matrix, np.transpose(inputs)) + self.connections.biases
         if self.activation:
             output_vec = [self.activation.evaluate(out) for out in output_vec]
+        
+        # This for loop goes through the list of neurons and
+        # updates their values with the values provided 
+        # through the new inputs
+        for i in range(len(output_vec)):
+            self.neurons[i].update_value(output_vec[i])
 
         return output_vec
-            
+
+    def get_neuron_values(self):
+        return [neuron.get_value() for neuron in self.neurons]
+    
     def __repr__(self):
         return "Layer with " + str(len(self.neurons)) + " neurons"
 
@@ -56,4 +70,16 @@ class Graph:
             outputs = layer.feed_forward(outputs)
 
         print(outputs)
+
+    def correct(self, outputs, target_outputs):
+        for in_layer, out_layer in zip(reversed(self.layers[1:]), reversed(self.layers[:-1])):
+            out_layer.backprop_error(in_layer.get_neuron_values())
+
+
+out - target
+
+
+
+
+
 
