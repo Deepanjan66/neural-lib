@@ -95,7 +95,7 @@ class Graph:
         self.correct(outputs, target_outputs)
 
     def correct(self, outputs, target_outputs):
-        errors = outputs - target_outputs
+        errors = self.error_func.derivative(outputs, target_outputs)
         for in_layer, out_layer in zip(reversed(self.layers[:-1]), reversed(self.layers[1:])):
             errors = out_layer.backprop_error(errors, in_layer.get_neuron_values())
 
