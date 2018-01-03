@@ -3,8 +3,8 @@ from activations import *
 
 def main():
     graph = Graph(3)
-    graph.add(Layer(5, activation=Sigmoid()))
-    graph.add(Layer(5, activation=Sigmoid()))
+    graph.add(Layer(3, activation=Sigmoid()))
+    graph.add(Layer(3, activation=Sigmoid()))
     graph.add(Layer(2, activation=Sigmoid()))
     for i in range(10000):
         graph.feed([1,1,1],[0,1])

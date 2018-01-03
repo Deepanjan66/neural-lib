@@ -24,6 +24,8 @@ class Layer:
         self.connections = None
         self.activation = activation
         self.learning_rate = learning_rate
+        if activation:
+            self.activation_der = np.vectorize(self.activation.derivative, otypes=[np.float])
 
     def connect_new_layer(self, layer):
         self.connections = LayerConnections({'input':len(layer.neurons),'output':len(self.neurons)})
@@ -46,20 +48,18 @@ class Layer:
             self.neurons[i].update_value(vec[i])
 
     def get_neuron_values(self):
-        return [neuron.get_value() for neuron in self.neurons]
+        return np.array([neuron.get_value() for neuron in self.neurons])
 
     def backprop_error(self, errors, input_array):
         weight_matrix = self.connections.weight_matrix
-        updated_errors = np.zeros(weight_matrix.shape)
 
-        for i in range(weight_matrix.shape[0]):
-            for j in range(weight_matrix.shape[1]):
-                updated_errors[i][j] = errors[i] * input_array[j]
-                if self.activation:
-                    updated_errors[i][j] *= \
-                    self.activation.derivative(self.get_neuron_values()[i])
-                weight_matrix[i][j] -= self.learning_rate * updated_errors[i][j] 
-        
+        updated_errors = np.repeat([input_array], weight_matrix.shape[0], axis=0)
+        updated_errors = updated_errors * errors[:, np.newaxis]
+
+        if self.activation:
+            updated_errors = self.activation_der(updated_errors)
+        weight_matrix -= updated_errors
+
         summed_updated_errors = np.sum(updated_errors, axis=0)
         return summed_updated_errors
 
