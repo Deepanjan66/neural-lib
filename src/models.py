@@ -1,7 +1,7 @@
 import numpy as np
 import random
-from error_evals import *
 import time
+from error_evals import *
 
 
 class LayerConnections:
