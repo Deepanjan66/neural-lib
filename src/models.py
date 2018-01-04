@@ -128,6 +128,7 @@ class Layer:
         # Get the weights associated with the connections between this
         # layer and the layer underneath it
         weight_matrix = self.connections.weight_matrix
+        bias_vector = self.connections.biases
         # The goal here is to use matrix operations to perform the whole backprop
         # process.
         # This process will be outlined in the blog associated with this repo
@@ -149,6 +150,9 @@ class Layer:
         
         # Subtract the error from the current weights
         weight_matrix -= updated_errors
+        # The error update for the bias vector will be the direct error signals 
+        # coming from the neurons in the previous layer
+        bias_vector -= errors
         # Add the error associated with the connections of each neuron
         # and that will be passed on to the next layer
         # This means that the same derivatives or errors aren't calculated twice
