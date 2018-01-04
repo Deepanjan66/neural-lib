@@ -1,6 +1,7 @@
 import numpy as np
 import random
 from error_evals import *
+import time
 
 
 class LayerConnections:
@@ -56,7 +57,7 @@ class Layer:
     """
     This class will be used to represent a layer in the neural network.
     """
-    def __init__(self, num_neurons, activation=None, learning_rate=None):
+    def __init__(self, num_neurons, activation=None, learning_rate=None, bias=True):
         """
         :param num_neurons: Number of neurons in the layer
         :param activation: Instance of the activation function that will be used 
@@ -64,6 +65,8 @@ class Layer:
         :param learning_rate: Learning rate to be used for this layer. If not 
                               provided, the default global learning rate
                               from the gtaph will be used
+        :param bias: Optional argument for including bias vectors in this layer.
+                     Bias vector will have no effect if bias is False
         """
         # creates neuron instances for the layer
         # Using a iD matrix would be better for storing the inputs 
@@ -72,6 +75,7 @@ class Layer:
         self.connections = None
         self.activation = activation
         self.learning_rate = learning_rate
+        self.bias = bias
         if activation:
             # Vectorizes the derivative function of the activation for optimized 
             # calculations later
@@ -127,6 +131,7 @@ class Layer:
         # Get the weights associated with the connections between this
         # layer and the layer underneath it
         weight_matrix = self.connections.weight_matrix
+        bias_vector = self.connections.biases
         # The goal here is to use matrix operations to perform the whole backprop
         # process.
         # This process will be outlined in the blog associated with this repo
@@ -145,8 +150,15 @@ class Layer:
         # all the inputs
         if self.activation:
             updated_errors = self.activation_der(updated_errors)
+        
         # Subtract the error from the current weights
         weight_matrix -= updated_errors
+        # The error update for the bias vector will be the direct error signals 
+        # coming from the neurons in the previous layer
+        if self.bias:
+            # only update the bias if the user wants it. Otherwise, bias 
+            # will remain 0 and will have no influence on the network
+            bias_vector -= errors
         # Add the error associated with the connections of each neuron
         # and that will be passed on to the next layer
         # This means that the same derivatives or errors aren't calculated twice

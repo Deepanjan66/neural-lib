@@ -6,7 +6,7 @@ def main():
     graph.add(Layer(3, activation=Sigmoid()))
     graph.add(Layer(3, activation=Sigmoid()))
     graph.add(Layer(2, activation=Sigmoid()))
-    for i in range(10000):
+    for i in range(1000):
         graph.feed([1,1,1],[0,1])
 
 if __name__=="__main__":
