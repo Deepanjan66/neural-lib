@@ -1,6 +1,7 @@
 import numpy as np
 import random
 from error_evals import *
+import time
 
 
 class LayerConnections:
@@ -145,6 +146,7 @@ class Layer:
         # all the inputs
         if self.activation:
             updated_errors = self.activation_der(updated_errors)
+        
         # Subtract the error from the current weights
         weight_matrix -= updated_errors
         # Add the error associated with the connections of each neuron
