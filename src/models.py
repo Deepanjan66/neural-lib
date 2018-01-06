@@ -1,7 +1,9 @@
 import numpy as np
 import random
 import time
+
 from error_evals import *
+import error_handler
 
 
 class LayerConnections:
@@ -145,7 +147,7 @@ class Layer:
         updated_errors = np.repeat([input_array], weight_matrix.shape[0], axis=0)
         # The error from each output neuron is the multiplied to each row of the 
         # inputs
-        updated_errors = updated_errors * errors[:, np.newaxis]
+        updated_errors = updated_errors * (self.learning_rate * errors[:, np.newaxis])
         # If an activation function is provided, that function is mapped to
         # all the inputs
         if self.activation:
@@ -205,20 +207,25 @@ class Graph:
         """
         This function is used to complete one forward pass
         and one backward pass in the training process
-        :param inputs: Inputs to the network
-        :param target_output: Expected outputs
+        :param inputs: List of inputs to the network
+        :param target_output: list of expected outputs
         """
-        outputs = np.array(inputs).transpose()
-        # The provided inputs are provided to the input layer
-        self.layers[0].update_neuron_values(outputs)
-        # The output from one layer is passed onto the
-        # next layer in the network to complete one complete pass
-        for layer in self.layers[1:]:
-            outputs = layer.feed_forward(outputs)
-        
-        target_outputs = np.array(target_outputs)
-        # Backpropagate the error
-        self.correct(outputs, target_outputs)
+        # check if inputs are lists of lists
+        error_handler.check_list_of_lists(inputs, target_outputs)
+        # If multiple training data supplied, go through all of them 
+        # and train the network
+        for input_data, target in zip(inputs, target_outputs):
+            outputs = np.array(input_data).transpose()
+            # The provided inputs are provided to the input layer
+            self.layers[0].update_neuron_values(outputs)
+            # The output from one layer is passed onto the
+            # next layer in the network to complete one complete pass
+            for layer in self.layers[1:]:
+                outputs = layer.feed_forward(outputs)
+            
+            target = np.array(target)
+            # Backpropagate the error
+            self.correct(outputs, target)
 
     def correct(self, outputs, target_outputs):
         """
