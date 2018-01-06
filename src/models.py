@@ -202,8 +202,38 @@ class Graph:
     def __repr__(self):
         return "Network with " + str(self.num_layers) + " layers.\n" + \
                 "\n".join([str(layer) for layer in self.layers])
+    
+    def predict(self, inputs):
+        """
+        This method provides the network's prediction for the
+        provided outputs
+        :param inputs: List of lists containing all the supplied inputs
+        
+        :return all_outputs: A list of all outputs produced by the 
+                             network
+        """
+        # check if inputs are lists of lists
+        error_handler.check_list_of_lists(inputs)
+        # If multiple training data supplied, go through all of them 
+        # and train the network
+        
+        # List for storing all the outputs
+        all_outputs = []
+        
+        for input_data in inputs:
+            outputs = np.array(input_data).transpose()
+            # The provided inputs are provided to the input layer
+            self.layers[0].update_neuron_values(outputs)
+            # The output from one layer is passed onto the
+            # next layer in the network to complete one complete pass
+            for layer in self.layers[1:]:
+                outputs = layer.feed_forward(outputs)
+            # append outputs to the final list
+            all_outputs.append(outputs)
 
-    def feed(self, inputs, target_outputs):
+        return all_outputs
+        
+    def feed(self, inputs, target_outputs, flag=None):
         """
         This function is used to complete one forward pass
         and one backward pass in the training process
