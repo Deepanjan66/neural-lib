@@ -1,3 +1,13 @@
+#===========================================
+# Implementation of the Backpropagation    #
+#               algorithm                  #
+#==========================================#
+# Written by Deepanjan Chakrabarty         #
+# Date: 6th January, 2018                  #
+# License: MIT                             #
+#                                          #
+#==========================================#
+
 import numpy as np
 import random
 import time
