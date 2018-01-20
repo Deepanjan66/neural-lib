@@ -5,7 +5,7 @@ def main():
     # Create graph. The number of input nodes is a required argument
     graph = Graph(2, global_learning_rate=0.3)
     # Add a new layer of 2 neurons and sigmoid activation
-    graph.add(Layer(2, activation=Sigmoid()))\
+    graph.add(Layer(2, activation=Sigmoid()))
     # Add a new layer of one neuron and no activation function
     graph.add(Layer(1))
     # Train network for a 1000 iterations and check outputs
