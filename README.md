@@ -14,12 +14,12 @@ This will run the default run script. You can add your code and run the network.
 ## Nerual Network utilities:
 
 This implementation defines all the basic models you'd require for training 
-sequential layers in a neural networks. You can stack layers on top of each other 
+sequential layers in neural networks. You can stack layers on top of each other 
 and add activation functions to introduce non-linearity. Remember, networks created
 from multiple layers will still be linear if no activation functions are added.
 
 You can add your own activation functions in the `activations.py` file. There is
-a base class that your model can implement. Please remember to implement all the
+a base class that your class can implement. Please remember to implement all the
 required methods.
 
 You can also add your own error functions in the `error_evals.py` file. In the same
@@ -39,8 +39,8 @@ learning.
 
 You can define and shape of layers and any number of stacked layers as you like.
 I will add skip connections in future iterations. This implementation should only be
-used for learning or understanding how neural networks work. For real world applications,
-please use package such as tensorflow, keras, torch etc because they use advanced 
+used for learning and understanding how neural networks work. For real world applications,
+please use packages such as tensorflow, keras, torch etc because they use advanced 
 techniques for optiization and also support training with GPUs.
 
 While learning with this implementation, if you think anything is not working, please do
