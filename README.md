@@ -11,7 +11,7 @@ To run the project:
 
 This will run the default run script. You can add your code and run the network.
 
-## Nerual Network utilities:
+## Neural Network utilities:
 
 This implementation defines all the basic models you'd require for training 
 sequential layers in neural networks. You can stack layers on top of each other 
