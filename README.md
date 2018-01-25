@@ -6,8 +6,8 @@ To run the project:
 1) Clone the repository
 2) Create a virtual environment
 3) Install all the dependencies by running `pip3 install -r requirements.txt`
-4) `##cd src`
-5) `##python3 run.py`
+4) **`cd src`**
+5) **`python3 run.py`**
 
 This will run the default run script. You can add your code and run the network.
 
