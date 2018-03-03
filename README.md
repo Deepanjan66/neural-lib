@@ -19,7 +19,7 @@ and add activation functions to introduce non-linearity. Remember, networks crea
 from multiple layers will still be linear if no activation functions are added.
 
 You can add your own activation functions in the `activations.py` file. There is
-a base class that your class can implement. Please remember to implement all the
+a base class that your class can inherit from. Please remember to implement all the
 required methods.
 
 You can also add your own error functions in the `error_evals.py` file. In the same
@@ -27,7 +27,7 @@ way, inherit from the base class and provide implementation of the required meth
 
 This implementation allows having different learning rates for different layers
 in the network. Define a global learning rate by passing the `global_learning_rate`
-aregument when you create the object graph and then you can change the learning
+argument when you create the object graph and then you can change the learning
 rate when you initialize the other layers. If a different learning rate is not
 provided, the layers will use the global learning rate for backpropagation. 
 
