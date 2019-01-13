@@ -1,4 +1,4 @@
-# Backpropagation
+# Neural Lib
 This is my implementation of a basic Neural Networks interface to show how the backpropagation algorithm works and how the structure of a network can influence the learning backpropagation facilitates.
 
 To run the project:
